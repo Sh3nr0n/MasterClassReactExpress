@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema
 
-var ImageSchema = new schema({
+var ImageSchema = new Schema({
     imageId: String,
     description: String
 });
