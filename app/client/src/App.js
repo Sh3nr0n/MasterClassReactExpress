@@ -5,23 +5,23 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users:[]
+      images:[]
     };
   }
   componentDidMount() {
-    fetch('/users')
+    fetch('/images')
       .then(res => res.json())
-      .then(users => this.setState({ users }));
+      .then(images => this.setState({ images }));
   }
 
   render() {
-    const { users } = this.state;
+    const { images } = this.state;
     return (
       <div className="App">
-        {users.map((user, key) => {
+        {images.map((images, key) => {
           return (
             <div key={key}>
-              {user.fname} {user.lname}
+              {images.imageId} {images.description}
             </div>
           );
         })}

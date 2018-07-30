@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-var path = require('path');
-
-var Image = require('../schema/schemaImage');
-
-router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/../client/public/index.html'))
+// /* GET users listing. */
+router.get('/', function(req, res, next) {
+  const images = [
+    {id: 1, imageId: 'dsqdsqd', description: 'guy'},
+    {id: 2, imageId: 'dsqdqsdqs', description: 'guy'},
+    {id: 3, imageId: 'fdgdg', description: 'guy'},
+  ]
+  res.send(images);
 });
 
 module.exports = router;
