@@ -5,23 +5,30 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images:[]
+      imageList:[]
     };
+    
   }
   componentDidMount() {
     fetch('/images')
       .then(res => res.json())
-      .then(images => this.setState({ images }));
+      .then(images => this.setState({ imageList: images }))
   }
 
+
   render() {
-    const { images } = this.state;
+
+    // Debug line of code to monitor the image state due to the use of async functions
+    setTimeout(console.log('this.state.imageList is : ',this.state.imageList),1000)
+
+    const { imageList } = this.state;
+
     return (
       <div className="App">
-        {images.map((images, key) => {
+        {imageList.map((image, key) => {
           return (
             <div key={key}>
-              {images.imageId} {images.description}
+              {image.imageId} {image.description}
             </div>
           );
         })}
