@@ -9,6 +9,7 @@ class App extends Component {
     };
     
   }
+  
   componentDidMount() {
     fetch('/images')
       .then(res => res.json())

@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+// Require newly added route
 var imagesRouter = require('./routes/images');
 
 var app = express();
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+// Set up the path to our route : we use this path with the "fetch" method in the React app to call the query
 app.use('/images', imagesRouter);
 
 
