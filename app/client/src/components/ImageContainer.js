@@ -21,7 +21,7 @@ class ImageContainer extends Component {
   }
 
   componentDidMount() {
-    fetch('/images')
+    fetch('/getImages')
       .then(res => res.json())
       .then(images => this.setState({ imageList: images }))
   }
