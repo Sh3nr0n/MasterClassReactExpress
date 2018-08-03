@@ -6,7 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 // Require newly added route
-var imagesRouter = require('./routes/getImages');
+var getImagesRouter = require('./routes/getImages');
+var postImageRouter = require('./routes/postImage');
+
+// This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request. 
+var bodyParser = require('body-parser')
+// var urlencodedParser = bodyParser.urlencoded({
+//     extended: true
+// });
 
 var app = express();
 
@@ -27,6 +34,7 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
+// Same usage as bodyParser.urlencoded()?
 app.use(express.urlencoded({
     extended: false
 }));
@@ -35,7 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 // Set up the path to our route : we use this path with the "fetch" method in the React app to call the query
-app.use('/getImages', imagesRouter);
+app.use('/getImages', getImagesRouter);
+app.use('/postImage', postImageRouter);
 
 
 

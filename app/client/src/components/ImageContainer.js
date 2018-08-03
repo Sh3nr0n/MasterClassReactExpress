@@ -16,7 +16,9 @@ class ImageContainer extends Component {
     super(props);
     this.state = {
       openModal: false,
-      imageList:[]
+      imageList:[],
+      imageId:'',
+      desc:''
     };
   }
 
@@ -42,7 +44,34 @@ class ImageContainer extends Component {
 
   handleImageSubmit = () => {
     console.log("form has been submitted");
+    console.log('image id is : %s and desc is : %s',this.state.imageId, this.state.desc)
+
+    fetch('/postImage', {
+      method: 'POST',
+      body: JSON.stringify({
+        imageId: this.state.imageId,
+        desc: this.state.desc
+      }),
+      headers: {"Content-Type": "application/json"}
+    })
+    .then(
+      fetch('/getImages')
+      .then(res => res.json())
+      .then(images => this.setState({ imageList: images }))
+    )// Re-render the image list in the view
   };
+
+  handleUrlChange = (event) => {
+    this.setState({
+      imageId:event.target.value
+    })
+  }
+
+  handleDescriptionChange = (event) => {
+    this.setState({
+      desc:event.target.value
+    })
+  }
 
   render() {
     const { imageList } = this.state;
@@ -57,16 +86,19 @@ class ImageContainer extends Component {
             <Form onSubmit={this.handleImageSubmit} error>
               <Form.Field>
                 <label>URL</label>
-                <input placeholder="URL de l'image" />
+                <input 
+                  placeholder="URL de l'image" 
+                  value={this.state.imageId}
+                  onChange={this.handleUrlChange}
+                />
               </Form.Field>
-              <Message
-                error
-                header="Action Forbidden"
-                content="You can only sign up for an account once with a given e-mail address."
-              />
               <Form.Field>
                 <label>description</label>
-                <input placeholder="Entrez une description" />
+                <input 
+                  placeholder="Entrez une description" 
+                  value={this.state.desc}
+                  onChange={this.handleDescriptionChange}
+                />
               </Form.Field>
               <Button type="submit" floated="right">
                 Valider
