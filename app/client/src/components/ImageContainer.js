@@ -7,7 +7,6 @@ import {
   Modal,
   Icon,
   Button,
-  Message,
   Form
 } from "semantic-ui-react";
 
@@ -17,7 +16,7 @@ class ImageContainer extends Component {
     this.state = {
       openModal: false,
       imageList:[],
-      imageId:'',
+      imageSrc:'',
       desc:''
     };
   }
@@ -44,26 +43,33 @@ class ImageContainer extends Component {
 
   handleImageSubmit = () => {
     console.log("form has been submitted");
-    console.log('image id is : %s and desc is : %s',this.state.imageId, this.state.desc)
+    console.log('image src is : %s and desc is : %s',this.state.imageSrc, this.state.desc)
 
     fetch('/postImage', {
       method: 'POST',
       body: JSON.stringify({
-        imageId: this.state.imageId,
+        imageSrc: this.state.imageSrc,
         desc: this.state.desc
       }),
       headers: {"Content-Type": "application/json"}
     })
+    .then(console.log('JSON sent to server',
+      JSON.stringify({
+        imageSrc: this.state.imageSrc,
+        desc: this.state.desc
+      })
+    ))
     .then(
       fetch('/getImages')
       .then(res => res.json())
       .then(images => this.setState({ imageList: images }))
     )// Re-render the image list in the view
+    .then(this.setState({ openModal: false,}))// Close Modal
   };
 
   handleUrlChange = (event) => {
     this.setState({
-      imageId:event.target.value
+      imageSrc:event.target.value
     })
   }
 
@@ -87,8 +93,8 @@ class ImageContainer extends Component {
               <Form.Field>
                 <label>URL</label>
                 <input 
-                  placeholder="URL de l'image" 
-                  value={this.state.imageId}
+                  placeholder="Entrez l'URL de l'image" 
+                  value={this.state.imageSrc}
                   onChange={this.handleUrlChange}
                 />
               </Form.Field>
@@ -118,16 +124,16 @@ class ImageContainer extends Component {
                 return (
                   <Modal
                     key={i}
-                    trigger={<Image src={image.src} alt="image" size="tiny" />}
+                    trigger={<Image src={image.imageSrc} alt={image.description} size="tiny" />}
                   >
                     <Modal.Header>
-                      This image id is : {image.imageId}
+                      Identifiant de l'image : {image._id}
                     </Modal.Header>
                     <Modal.Content image>
-                      <Image wrapped size="medium" src={image.src} />
+                      <Image wrapped size="medium" src={image.imageSrc} />
                       <Modal.Description>
-                        <Header>This is a header/title</Header>
-                        <p>{image.desc}</p>
+                        <Header>Récit</Header>
+                        <p>{image.description}</p>
                       </Modal.Description>
                     </Modal.Content>
                   </Modal>

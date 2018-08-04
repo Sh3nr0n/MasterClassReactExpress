@@ -21,9 +21,9 @@ router.get('/', async function(req, res, next) {
 // // Test without db connection
 // router.get('/', function(req, res, next) {
 //   const images = [
-//     {id: 1, imageId: 'dsqdsqd', description: 'guy'},
-//     {id: 2, imageId: 'dsqdqsdqs', description: 'guy'},
-//     {id: 3, imageId: 'fdgdg', description: 'guy'},
+//     {id: 1, imageSrc: 'dsqdsqd', description: 'guy'},
+//     {id: 2, imageSrc: 'dsqdqsdqs', description: 'guy'},
+//     {id: 3, imageSrc: 'fdgdg', description: 'guy'},
 //   ]
 
 // res.send(images)
