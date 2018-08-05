@@ -79,12 +79,12 @@ class ImageContainer extends Component {
     })
   }
 
-  handleDeleteImage = () => {
-    console.log('click on delete')
+  handleDeleteImage = (id) => {
+    console.log('Delete image with id = %s',id)
   }
 
-  handleEditImage = () => {
-    console.log('click on edit')
+  handleEditImage = (id) => {
+    console.log('Edit image with id = %s',id)
   }
 
 
@@ -142,13 +142,13 @@ class ImageContainer extends Component {
                         circular
                         floated="right" 
                         icon='trash alternate outline'
-                        onClick={this.handleDeleteImage}
+                        onClick={() => {this.handleDeleteImage(image._id)}}
                      />
                       <Button
                         circular
                         floated="right"
                         icon='edit outline'
-                        onClick={this.handleEditImage}
+                        onClick={() => {this.handleEditImage(image._id)}}
                      />
                     </Modal.Header>
                     <Modal.Content image>
