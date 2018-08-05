@@ -128,6 +128,8 @@ class ImageContainer extends Component {
                   >
                     <Modal.Header>
                       Identifiant de l'image : {image._id}
+                      <Button circular floated="right" icon='trash alternate outline' />
+                      <Button circular floated="right" icon='edit outline' />
                     </Modal.Header>
                     <Modal.Content image>
                       <Image wrapped size="medium" src={image.imageSrc} />
