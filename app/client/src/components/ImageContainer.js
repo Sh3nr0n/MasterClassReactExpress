@@ -79,6 +79,16 @@ class ImageContainer extends Component {
     })
   }
 
+  handleDeleteImage = () => {
+    console.log('click on delete')
+  }
+
+  handleEditImage = () => {
+    console.log('click on edit')
+  }
+
+
+
   render() {
     const { imageList } = this.state;
 
@@ -128,8 +138,18 @@ class ImageContainer extends Component {
                   >
                     <Modal.Header>
                       Identifiant de l'image : {image._id}
-                      <Button circular floated="right" icon='trash alternate outline' />
-                      <Button circular floated="right" icon='edit outline' />
+                      <Button 
+                        circular
+                        floated="right" 
+                        icon='trash alternate outline'
+                        onClick={this.handleDeleteImage}
+                     />
+                      <Button
+                        circular
+                        floated="right"
+                        icon='edit outline'
+                        onClick={this.handleEditImage}
+                     />
                     </Modal.Header>
                     <Modal.Content image>
                       <Image wrapped size="medium" src={image.imageSrc} />
