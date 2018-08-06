@@ -51,12 +51,12 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
  - Dans le dossier **routes**, créer un fichier **getimages.js**
 
        router.get('/', async function(req, res, next) { 
-       
+         console.log('getImage.js : Got a get request')
          Image.find({}, function(err, images) {
              
            if (err) { return next(err) }
            console.log(images);
-           return res.json(images);
+           return res.json('image list : ',images);
          });
        });
 
@@ -90,5 +90,26 @@ Cette méthode, disponible pour tout les composants créés à partir du composa
 
  - Simuler un objet à passer depuis **getImage.js** vers le composant React.
 
+## Créer une requête de type POST pour ajouter une image
+
+ - Créer le fichier postImage.js
+ - Ajouter la route dans app.js (/!\ ne pas donner le code)
+ - Implémenter la requête dans React
+
+## Créer une requête de type UPDATE pour modifier une image
+
+ - Créer le fichier updateImage.js
+ - Ajouter la route dans app.js (/!\ ne pas donner le code)
+ - Implémenter la requête dans React (Ajouter le bouton dans la première modale, Créer une nouvelle modale avec son jeu de méthodes)
 
 
+## Créer une requête de type DELETE pour supprimer une image
+
+ - Créer le fichier updateImage.js
+ - Ajouter la route dans app.js (/!\ ne pas donner le code)
+ - Implémenter la requête dans React (Ajouter le bouton dans la première modale)
+
+ ## Un framework à tester :
+
+ mern-starter : https://github.com/Hashnode/mern-starter
+ 

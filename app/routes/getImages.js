@@ -5,11 +5,11 @@ var Image = require('../schema/schemaImage')
 // Express translates the path strings to regular expressions, used internally to match incoming requests. Query strings are not considered when performing these matches, for example “GET /” would match the following route, as would “GET /?name=tobi”.
 
 router.get('/', async function(req, res, next) { // Use of Async function to handle the promise from the Image.find() query
-
+  console.log('getImage.js : Got a get request')
   Image.find({}, function(err, images) {   // Search for all objects in db and return an images object as specified in the Image schema
 
     if (err) { return next(err) }
-    console.log(images);
+    console.log('image list : ', images);
     return res.json(images);
   });
 });
