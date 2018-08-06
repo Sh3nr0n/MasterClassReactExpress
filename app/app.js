@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 // Require newly added route
 var getImagesRouter = require('./routes/getImages');
 var postImageRouter = require('./routes/postImage');
+var updateImageRouter = require('./routes/updateImage');
+
 
 // This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request. 
 var bodyParser = require('body-parser')
@@ -45,7 +47,7 @@ app.use('/', indexRouter);
 // Set up the path to our route : we use this path with the "fetch" method in the React app to call the query
 app.use('/getImages', getImagesRouter);
 app.use('/postImage', postImageRouter);
-
+app.use('/updateImage', updateImageRouter);
 
 
 // catch 404 and forward to error handler

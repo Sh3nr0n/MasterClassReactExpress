@@ -17,7 +17,9 @@ class ImageContainer extends Component {
       openModal: false,
       imageList:[],
       imageSrc:'',
-      desc:''
+      desc:'',
+      openEditModal:false,
+      id:''
     };
   }
 
@@ -83,8 +85,47 @@ class ImageContainer extends Component {
     console.log('Delete image with id = %s',id)
   }
 
-  handleEditImage = (id) => {
-    console.log('Edit image with id = %s',id)
+  handleEditImage = (id, src, desc) => {
+    console.log('Edit image with id = %s, src = %s and desc = %s',id,src,desc)
+    this.setState({
+      openEditModal:true,
+      imageSrc:src,
+      desc:desc,
+      id:id
+    })
+  }
+
+    handleImageEditSubmit = () => {
+      console.log('modifications sent')
+
+    fetch('/updateImage', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: this.state.id,
+        imageSrc: this.state.imageSrc,
+        desc: this.state.desc
+      }),
+      headers: {"Content-Type": "application/json"}
+    })
+    .then(console.log('JSON modified sent to server',
+      JSON.stringify({
+        id: this.state.id,
+        imageSrc: this.state.imageSrc,
+        desc: this.state.desc
+      })
+    ))
+    .then(this.setState({ openEditModal: false, openModal: false,}))// Close Modals
+    .then(
+      fetch('/getImages')
+      .then(res => res.json())
+      .then(images => this.setState({ imageList: images }))
+    )// Re-render the image list in the view
+  }
+
+  handleCloseEditModal = () => {
+    this.setState({
+      openEditModal:false
+    })
   }
 
 
@@ -94,12 +135,43 @@ class ImageContainer extends Component {
 
     console.log("images are", imageList);
 
-    const imageModal = (
+    const addImageModal = (
       <Modal open={this.state.openModal} onClose={this.handleCloseModal}>
         <Modal.Header>Selectionnez une Image</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
             <Form onSubmit={this.handleImageSubmit} error>
+              <Form.Field>
+                <label>URL</label>
+                <input 
+                  placeholder="Entrez l'URL de l'image" 
+                  value={this.state.imageSrc}
+                  onChange={this.handleUrlChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>description</label>
+                <input 
+                  placeholder="Entrez une description" 
+                  value={this.state.desc}
+                  onChange={this.handleDescriptionChange}
+                />
+              </Form.Field>
+              <Button type="submit" floated="right">
+                Valider
+              </Button>
+            </Form>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
+    );
+
+    const editImageModal = (
+      <Modal open={this.state.openEditModal} onClose={this.handleCloseEditModal}>
+        <Modal.Header>Selectionnez une Image</Modal.Header>
+        <Modal.Content image>
+          <Modal.Description>
+            <Form onSubmit={this.handleImageEditSubmit} error>
               <Form.Field>
                 <label>URL</label>
                 <input 
@@ -148,7 +220,7 @@ class ImageContainer extends Component {
                         circular
                         floated="right"
                         icon='edit outline'
-                        onClick={() => {this.handleEditImage(image._id)}}
+                        onClick={() => {this.handleEditImage(image._id, image.imageSrc, image.description)}}
                      />
                     </Modal.Header>
                     <Modal.Content image>
@@ -172,7 +244,8 @@ class ImageContainer extends Component {
             >
               <Icon name="plus" size="large" color="white" />
             </Button>
-            {imageModal}
+            {addImageModal}
+            {editImageModal}
           </Segment>
         </Container>
       </Fragment>
