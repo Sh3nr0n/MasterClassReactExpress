@@ -43,6 +43,12 @@ class ImageContainer extends Component {
     });
   };
 
+  fetchImages() {
+    fetch('/getImages')
+    .then(res => res.json())
+    .then(images => this.setState({ imageList: images }))
+  };
+
   handleImageSubmit = () => {
     console.log("form has been submitted");
     console.log('image src is : %s and desc is : %s',this.state.imageSrc, this.state.desc)
@@ -61,11 +67,7 @@ class ImageContainer extends Component {
         desc: this.state.desc
       })
     ))
-    .then(
-      fetch('/getImages')
-      .then(res => res.json())
-      .then(images => this.setState({ imageList: images }))
-    )// Re-render the image list in the view
+    .then(this.fetchImages())// Re-render the image list in the view
     .then(this.setState({ openModal: false,}))// Close Modal
   };
 
@@ -96,11 +98,7 @@ class ImageContainer extends Component {
       })
     ))
     .then(this.setState({ openModal: false}))// Close Modals
-    .then(
-      fetch('/getImages')
-      .then(res => res.json())
-      .then(images => this.setState({ imageList: images }))
-    )// Re-render the image list in the view
+    .then(this.fetchImages())// Re-render the image list in the view
   }
   
 
@@ -134,11 +132,7 @@ class ImageContainer extends Component {
       })
     ))
     .then(this.setState({ openEditModal: false}))// Close Modal
-    .then(
-      fetch('/getImages')
-      .then(res => res.json())
-      .then(images => this.setState({ imageList: images }))
-    )// Re-render the image list in the view
+    .then(this.fetchImages())// Re-render the image list in the view
   }
 
   handleCloseEditModal = () => {
@@ -146,8 +140,6 @@ class ImageContainer extends Component {
       openEditModal:false
     })
   }
-
-
 
   render() {
     const { imageList } = this.state;
