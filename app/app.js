@@ -11,32 +11,25 @@ var postImageRouter = require('./routes/postImage');
 var updateImageRouter = require('./routes/updateImage');
 var deleteImageRouter = require('./routes/deleteImage');
 
-// This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request. 
-var bodyParser = require('body-parser')
-// var urlencodedParser = bodyParser.urlencoded({
-//     extended: true
-// });
-
 var app = express();
 
-// IMPORTANT - Connection BDD
+// IMPORTANT - database connection
 var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/masterclass');
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'connection error:')); // Log possible connection errors to the database
 db.once('open', function() {
-    // we're connected!
+    // You can write code directly inside this block but it is best practice to keep your API calls in separated modules
 });
 
-// view engine setup
+// View engine setup (we won't be using that part as REACT renders our views)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// Default settings from express generator
 app.use(logger('dev'));
 app.use(express.json());
-// Same usage as bodyParser.urlencoded()?
 app.use(express.urlencoded({
     extended: false
 }));
