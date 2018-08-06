@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var getImagesRouter = require('./routes/getImages');
 var postImageRouter = require('./routes/postImage');
 var updateImageRouter = require('./routes/updateImage');
-
+var deleteImageRouter = require('./routes/deleteImage');
 
 // This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request. 
 var bodyParser = require('body-parser')
@@ -48,6 +48,8 @@ app.use('/', indexRouter);
 app.use('/getImages', getImagesRouter);
 app.use('/postImage', postImageRouter);
 app.use('/updateImage', updateImageRouter);
+app.use('/deleteImage', deleteImageRouter);
+
 
 
 // catch 404 and forward to error handler

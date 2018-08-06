@@ -14,6 +14,7 @@ router.post('/', function(req, res, next) {
       },
     )
     .then(doc => console.log('Request parameters are %s and %s', req.body.imageSrc,req.body.desc ))
+    .catch(err => {console.error(err)})
     
     res.send();
 })

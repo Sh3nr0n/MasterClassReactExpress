@@ -83,7 +83,26 @@ class ImageContainer extends Component {
 
   handleDeleteImage = (id) => {
     console.log('Delete image with id = %s',id)
+    fetch('/deleteImage', {
+      method: 'POST',
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {"Content-Type": "application/json"}
+    })
+    .then(console.log('JSON object : image id to delete',
+      JSON.stringify({
+        id: id,
+      })
+    ))
+    .then(this.setState({ openModal: false}))// Close Modals
+    .then(
+      fetch('/getImages')
+      .then(res => res.json())
+      .then(images => this.setState({ imageList: images }))
+    )// Re-render the image list in the view
   }
+  
 
   handleEditImage = (id, src, desc) => {
     console.log('Edit image with id = %s, src = %s and desc = %s',id,src,desc)
@@ -114,7 +133,7 @@ class ImageContainer extends Component {
         desc: this.state.desc
       })
     ))
-    .then(this.setState({ openEditModal: false, openModal: false,}))// Close Modals
+    .then(this.setState({ openEditModal: false}))// Close Modal
     .then(
       fetch('/getImages')
       .then(res => res.json())

@@ -10,9 +10,7 @@ var Image = require('../schema/schemaImage')
 router.get('/', async function(req, res, next) {
   // Search for all objects in db and return an images object as specified in the Image schema
   Image.find({}, function(err, images) {
-    // To do : search doc to explain status(509) and status(504)
-    if (err) { return res.status(509).json({ error: err }); }
-    if (!images) { return res.status(504).json({ images: 'none' }); }
+    if (err) { return next(err) }
     console.log(images);
     return res.json(images);
   });
