@@ -172,6 +172,20 @@ Modifier le formulaire de la modale de saisie des images de manière à ce que l
               </Button>
             </Form>
 
+Implémenter les métodes associées :
+
+       handleUrlChange = (event) => {
+         this.setState({
+           imageSrc:event.target.value
+         })
+       }
+     
+       handleDescriptionChange = (event) => {
+         this.setState({
+           desc:event.target.value
+         })
+       }
+
 
 Ajouter le **state** correspondant dans le composant parent :
 
