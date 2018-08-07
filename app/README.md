@@ -119,20 +119,112 @@ Cette méthode, disponible pour tout les composants créés à partir du composa
 
 ## Créer une requête de type POST pour ajouter une image
 
- - Créer le fichier postImage.js
- - Ajouter la route dans app.js (/!\ ne pas donner le code)
+ - Créer le fichier **postImage.js**
+
+       var express = require('express');
+       var router = express.Router();
+       var Image = require('../schema/schemaImage');
+       
+       router.post('/', function(req, res, next) {
+           console.log('postImage.js : Got a post request')
+
+           var image = new Image({ // Create an instance of the schemaImage model
+
+               imageSrc: req.body.imageSrc, // Pass the req.body parameters
+               description: req.body.desc
+             })
+             console.log('imageSrc is %s and description is %s',        req.body.imageSrc,req.body.desc )
+             image.save(function (err, postedResult) {
+               if (err) { return next(err) }
+             })
+           res.send();
+       })
+
+module.exports = router;
+ 
+ - Ajouter la route dans app.js
+ 
+ A vous de jouer
+
  - Implémenter la requête dans React
+
+Modifier le formulaire de la modale de saisie des images de manière à ce que la valeur des input soit mise à jour par le **state** du composant. Passer une méthode **onChange()** à l'input pour stocker les valeurs entrées par l'utilisateur.
+
+            <Form onSubmit={this.handleImageSubmit} error>
+              <Form.Field>
+                <label>URL</label>
+                <input 
+                  placeholder="Entrez l'URL de l'image" 
+                  value={this.state.imageSrc}
+                  onChange={this.handleUrlChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>description</label>
+                <input 
+                  placeholder="Entrez une description" 
+                  value={this.state.desc}
+                  onChange={this.handleDescriptionChange}
+                />
+              </Form.Field>
+              <Button type="submit" floated="right">
+                Valider
+              </Button>
+            </Form>
+
+
+Ajouter le **state** correspondant dans le composant parent :
+
+     constructor(props) {
+         super(props);
+         this.state = {
+           imageSrc:'',
+           desc:'',
+         };
+       }
+
+Créer une méthode qui affiche les images dans la vue :
+
+       fetchImages() {
+         fetch('/getImages')
+         .then(res => res.json())
+         .then(images => this.setState({ imageList: images }))
+       };
+
+Modifier la méthode qui envoie les données au clic sur le bouton "**Valider**" du formulaire :
+
+    handleImageSubmit = () => {
+      console.log('Form has been submitted, image src is : %s and desc is : %s',  this.state.imageSrc, this.state.desc)
+  
+      fetch('/postImage', { 
+        method: 'POST', // Define the HTML method to use
+        body: JSON.stringify({ // Body of the request
+          imageSrc: this.state.imageSrc, // Parameters passed from the state
+          desc: this.state.desc
+        }),
+        headers: {"Content-Type": "application/json"} // Header of the request
+      })
+      .then(console.log('JSON sent to server', // Check what has been sent
+        JSON.stringify({
+          imageSrc: this.state.imageSrc,
+          desc: this.state.desc
+        })
+      ))
+      .then(this.fetchImages())// Re-render the image list in   the view
+      .then(this.setState({ openModal: false,}))// Close Modal
+    };
+
 
 ## Créer une requête de type UPDATE pour modifier une image
 
- - Créer le fichier updateImage.js
+ - Créer le fichier **updateImage.js**
  - Ajouter la route dans app.js (/!\ ne pas donner le code)
  - Implémenter la requête dans React (Ajouter le bouton dans la première modale, Créer une nouvelle modale avec son jeu de méthodes)
 
 
 ## Créer une requête de type DELETE pour supprimer une image
 
- - Créer le fichier updateImage.js
+ - Créer le fichier **deleteImage.js**
  - Ajouter la route dans app.js (/!\ ne pas donner le code)
  - Implémenter la requête dans React (Ajouter le bouton dans la première modale)
 
