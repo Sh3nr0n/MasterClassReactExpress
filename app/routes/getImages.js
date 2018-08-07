@@ -17,9 +17,9 @@ router.get('/', async function(req, res, next) { // Use of Async function to han
 // // Test without db connection
 // router.get('/', function(req, res, next) {
 //   const images = [
-//     {id: 1, imageSrc: 'dsqdsqd', description: 'guy'},
-//     {id: 2, imageSrc: 'dsqdqsdqs', description: 'guy'},
-//     {id: 3, imageSrc: 'fdgdg', description: 'guy'},
+//     {id: 1, imageSrc: 'https://picsum.photos/400?image=1069', description: '1st image'},
+//     {id: 2, imageSrc: 'https://picsum.photos/400?image=1079', description: '2nd image'},
+//     {id: 3, imageSrc: 'https://picsum.photos/400?image=1060', description: '3rd image'},
 //   ]
 
 // res.send(images)
