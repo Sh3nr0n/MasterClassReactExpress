@@ -1,10 +1,10 @@
 # Etapes  exercice #2 : Créer les requêtes d'affichage, d'insertion, de modification et de suppression des images
 
-## Paramétrer le serveur node
+## Paramétrer les serveurs node (back-end et front-end)
 
  - Aller dans le fichier **package.json** à la racine du dossier
 
- Dans le **package.json** entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent (port 3001) de l'application React :
+ Dans le **package.json** entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent de l'application React :
 
      {
        "name": "app",
@@ -14,7 +14,7 @@
          "start": "PORT=3001 node ./bin/www" // <= ligne à ajouter
        },
 
-Dans fichier **client/package.json**, ajouter la ligne suivante pour que le server front-end communique avec le back-end :
+Dans le fichier **client/package.json**, ajouter la ligne suivante pour que le server front-end communique avec le back-end :
 
      {
        "scripts": {
@@ -75,7 +75,7 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
 
 ## Créer une requête de type GET pour afficher des images
 
- - Dans le dossier **routes**, créer un fichier **getimages.js**
+ - Dans le dossier **routes**, créer un fichier **getImages.js**
 
        router.get('/', async function(req, res, next) { 
          console.log('getImage.js : Got a get request')
