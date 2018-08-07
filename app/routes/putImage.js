@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Image = require('../schema/schemaImage');
 
-router.post('/', function(req, res, next) {
-    console.log('putImage.js : Got a post request for image id:',req.body.id)
+router.put('/', function(req, res, next) {
+    console.log('putImage.js : Got a Put request for image id:',req.body.id)
     Image.findOneAndUpdate(
       {
         _id: req.body.id //search query

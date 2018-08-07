@@ -3,7 +3,7 @@ var router = express.Router();
 var Image = require('../schema/schemaImage');
 
 router.post('/', function(req, res, next) {
-    console.log('postImage.js : Got a post request')
+    console.log('postImage.js : Got a Post request')
 
     // Create an instance of the schemaImage model
 

@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 // Require newly added route
 var getImagesRouter = require('./routes/getImages');
 var postImageRouter = require('./routes/postImage');
-var updateImageRouter = require('./routes/updateImage');
+var putImageRouter = require('./routes/putImage');
 var deleteImageRouter = require('./routes/deleteImage');
 
 var app = express();
@@ -40,7 +40,7 @@ app.use('/', indexRouter);
 // Set up the path to our route : we use this path with the "fetch" method in the React app to call the query
 app.use('/getImages', getImagesRouter);
 app.use('/postImage', postImageRouter);
-app.use('/updateImage', updateImageRouter);
+app.use('/putImage', putImageRouter);
 app.use('/deleteImage', deleteImageRouter);
 
 

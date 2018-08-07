@@ -86,7 +86,7 @@ class ImageContainer extends Component {
   handleDeleteImage = (id) => {
     console.log('Delete image with id = %s',id)
     fetch('/deleteImage', {
-      method: 'POST',
+      method: 'DELETE',
       body: JSON.stringify({
         id: id,
       }),
@@ -115,8 +115,8 @@ class ImageContainer extends Component {
     handleImageEditSubmit = () => {
       console.log('modifications sent')
 
-    fetch('/updateImage', {
-      method: 'POST',
+    fetch('/putImage', {
+      method: 'PUT',
       body: JSON.stringify({
         id: this.state.id,
         imageSrc: this.state.imageSrc,

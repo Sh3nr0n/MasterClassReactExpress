@@ -1,20 +1,18 @@
-# Etapes  exercice #2 : Créer les requêtes d'affichage, d'insertion, de modification et de suppression des images
+# Etapes  exercice #2 : Créer les requêtes d'affichage, d'insertion, de modification et de suppression des images dans une base de données
 
 ## Paramétrer les serveurs node (back-end et front-end)
 
- - Aller dans le fichier **package.json** à la racine du dossier
+ - Ouvrir le fichier **package.json** à la racine du projet et entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent de l'application React :
 
- Dans le **package.json** entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent de l'application React :
+        {
+          "name": "app",
+          "version": "0.0.0",
+          "private": true,
+          "scripts": {
+            "start": "PORT=3001 node ./bin/www" // <= ligne à    ajouter
+          },
 
-     {
-       "name": "app",
-       "version": "0.0.0",
-       "private": true,
-       "scripts": {
-         "start": "PORT=3001 node ./bin/www" // <= ligne à ajouter
-       },
-
-Dans le fichier **client/package.json**, ajouter la ligne suivante pour que le server front-end communique avec le back-end :
+- Dans le fichier **client/package.json**, ajouter la ligne suivante pour que le server front-end communique avec le back-end :
 
      {
        "scripts": {
@@ -29,7 +27,7 @@ Dans le fichier **client/package.json**, ajouter la ligne suivante pour que le s
 
 ## Connexion à la base de données
 
-Dans **app.js** ajouter les lignes suivantes pour établir la connexion à la base :
+- Dans **app.js** ajouter les lignes suivantes pour établir la connexion à la base :
 
         // IMPORTANT - database connection
        var mongoose = require('mongoose');
@@ -51,12 +49,12 @@ http://mongoosejs.com/docs/guide.html
  - Créer un dossier **/schema**
  - Créer un fichier **schemaImage.js** qui va recevoir le schéma :
 
- Importer Mongoose et créer un nouveau schéma.
+ - Importer Mongoose et créer un nouveau schéma.
 
        var mongoose = require('mongoose');
        var Schema = mongoose.Schema
        
-Définir un schéma, pour rappel : c'est la forme du document dans une collection mongoDB. Spécifier le type de données pour chaque paramètre.
+- Définir un schéma, pour rappel : c'est la forme du document dans une collection mongoDB. Spécifier le type de données pour chaque paramètre.
        
        var ImageSchema = new Schema({
            imageSrc: String, // Input data types
@@ -65,9 +63,9 @@ Définir un schéma, pour rappel : c'est la forme du document dans une collectio
            collection:'Image'//Collection name
            }
        );
-**Important :** si aucun nom de collection n'est spécifié dans le schéma, MongoDB créera automatiquement une collection dans laquelle stocker les données.
+**/!\ Important :** si aucun nom de collection n'est spécifié dans le schéma, MongoDB créera automatiquement une collection dans laquelle stocker les données.
        
-Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **modèle** avec lequel on peu travailler :
+Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **modèle** avec lequel on peut travailler :
        
        var Image = mongoose.model('Image', ImageSchema);
        
@@ -78,7 +76,7 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
  - Dans le dossier **routes**, créer un fichier **getImages.js**
 
        router.get('/', async function(req, res, next) { 
-         console.log('getImage.js : Got a get request')
+         console.log('getImage.js : Got a Get request')
          Image.find({}, function(err, images) {
              
            if (err) { return next(err) }
@@ -126,7 +124,7 @@ Cette méthode, disponible pour tout les composants créés à partir du composa
        var Image = require('../schema/schemaImage');
        
        router.post('/', function(req, res, next) {
-           console.log('postImage.js : Got a post request')
+           console.log('postImage.js : Got a Post request')
 
            var image = new Image({ // Create an instance of the schemaImage model
 
@@ -140,15 +138,14 @@ Cette méthode, disponible pour tout les composants créés à partir du composa
            res.send();
        })
 
-module.exports = router;
+       module.exports = router;
  
- - Ajouter la route dans app.js
+ - Ajouter la route dans **app.js**
  
- A vous de jouer
+ A vous de jouer!
 
  - Implémenter la requête dans React
 
-Modifier le formulaire de la modale de saisie des images de manière à ce que la valeur des input soit mise à jour par le **state** du composant. Passer une méthode **onChange()** à l'input pour stocker les valeurs entrées par l'utilisateur.
 
             <Form onSubmit={this.handleImageSubmit} error>
               <Form.Field>
@@ -172,7 +169,9 @@ Modifier le formulaire de la modale de saisie des images de manière à ce que l
               </Button>
             </Form>
 
-Implémenter les métodes associées :
+Dans cette partie, on modifie le formulaire du composant **Modal** qui permet de saisir des images. La valeur des input est stockée dans le **state** du composant. On passe ensuite une méthode **onChange()** à l'input qui permet d'enregistrer les valeurs entrées par l'utilisateur à chaque changement.
+
+ - Implémenter les métodes associées :
 
        handleUrlChange = (event) => {
          this.setState({
@@ -186,18 +185,20 @@ Implémenter les métodes associées :
          })
        }
 
+On utilise ici les **event listeners** (écouteurs d'événements) pour enregistrer la valeur dans le **state** du composant.
 
-Ajouter le **state** correspondant dans le composant parent :
 
-     constructor(props) {
-         super(props);
-         this.state = {
-           imageSrc:'',
-           desc:'',
-         };
-       }
+ - Ajouter le **state** correspondant dans le composant parent :
 
-Créer une méthode qui affiche les images dans la vue :
+        constructor(props) {
+            super(props);
+            this.state = {
+              imageSrc:'', // The initial state value is en empty string
+              desc:'',
+            };
+          }
+
+ - Créer une méthode qui affiche les images dans la vue :
 
        fetchImages() {
          fetch('/getImages')
@@ -205,44 +206,107 @@ Créer une méthode qui affiche les images dans la vue :
          .then(images => this.setState({ imageList: images }))
        };
 
-Modifier la méthode qui envoie les données au clic sur le bouton "**Valider**" du formulaire :
+La méthode **fetch()** va aller "chercher" la route correspondante (paramétrée dans **app.js**).
 
-    handleImageSubmit = () => {
-      console.log('Form has been submitted, image src is : %s and desc is : %s',  this.state.imageSrc, this.state.desc)
-  
-      fetch('/postImage', { 
-        method: 'POST', // Define the HTML method to use
-        body: JSON.stringify({ // Body of the request
-          imageSrc: this.state.imageSrc, // Parameters passed from the state
-          desc: this.state.desc
-        }),
-        headers: {"Content-Type": "application/json"} // Header of the request
-      })
-      .then(console.log('JSON sent to server', // Check what has been sent
-        JSON.stringify({
-          imageSrc: this.state.imageSrc,
-          desc: this.state.desc
-        })
-      ))
-      .then(this.fetchImages())// Re-render the image list in   the view
-      .then(this.setState({ openModal: false,}))// Close Modal
-    };
+ - Modifier la méthode qui envoie les données au clic sur le bouton "**Valider**" du formulaire :
 
-
-## Créer une requête de type UPDATE pour modifier une image
-
- - Créer le fichier **updateImage.js**
- - Ajouter la route dans app.js (/!\ ne pas donner le code)
- - Implémenter la requête dans React (Ajouter le bouton dans la première modale, Créer une nouvelle modale avec son jeu de méthodes)
+       handleImageSubmit = () => {
+         console.log('Form has been submitted, image src is :    %s and desc is : %s',  this.state.imageSrc,    this.state.desc)
+     
+         fetch('/postImage', { 
+           method: 'POST', // Define the HTTP method to use
+           body: JSON.stringify({ // Body of the request
+             imageSrc: this.state.imageSrc, // Parameters    passed from the state
+             desc: this.state.desc
+           }),
+           headers: {"Content-Type": "application/json"} //    Header of the request (mandatory)
+         })
+         .then(console.log('JSON sent to server', // Check    what has been sent
+           JSON.stringify({
+             imageSrc: this.state.imageSrc,
+             desc: this.state.desc
+           })
+         ))
+         .then(this.fetchImages())// Re-render the image list    in   the view
+         .then(this.setState({ openModal: false,}))// Close    Modal
+       };
 
 
+## Créer une requête de type PUT pour modifier une image
+
+ - Créer le fichier **putImage.js**
+
+       var express = require('express');
+       var router = express.Router();
+       var Image = require('../schema/schemaImage');
+       
+       router.put('/', function(req, res, next) {
+           console.log('putImage.js : Got a Put request for image id:',req.body.id)
+           Image.findOneAndUpdate(
+             {
+               _id: req.body.id // Search query
+             },
+             {
+               imageSrc: req.body.imageSrc,
+               description: req.body.desc // fields:values to        update
+             },
+           )
+           .then(doc => console.log('Request parameters are %s and        %s', req.body.imageSrc,req.body.desc ))
+           .catch(err => {console.error(err)})
+           
+           res.send();
+       })
+
+       module.exports = router;
+
+La méthode **findOneAndUpdate()** accepte deux paramètres : l'identifiant de l'image à mettre à jour et les valeurs associées qu'il faut modifier en base.
+
+ - Ajouter la route dans **app.js**
+
+A vous de jouer!
+
+ - Implémenter la requête dans React
+
+
+
+A vous de jouer!
+
+**tips* : Voici quelques étapes qui pourraont vous aider
+
+ - Dans le composant **Modal** qui affiche une image :créer un bouton  ouvrant un formulaire
+ - Le formulaire est dans un composant **Modal** et possède deux **input** pour modifier l'URL et la description de l'image
+ - Au clic sur ce bouton, il faut récupérer les informations de l'image (identifiant, url, description) et les envoyer dans le **state** du composant et ouvrir le formulaire (qui est dans un composant **Modal**). 
+ 
+ Il y a une subtilité de React pour passer des paramètres à une fonction avec un événement de type "**onClick**". La ligne suivante fait intervenir une fontion fléchée "**() => {//instructions}**" dans laquelle on passe une méthode acceptant les arguments que l'on souhaite passer.
+
+       onClick={() => {this.handleEditImage(image._id, image.imageSrc, image.description)}}
+
+ - Créer un nouveau composant **Modal** qui va recevoir le formulaire d'édition.  
+ - A l'image du composant d'ajout d'images, le composant d'édition a besoin de plusieurs méthodes pour fonctionner : une méthode pour ouvrir le composant, une méthode pour le fermer, deux méthodes pour enregistrer les valeurs des inputs (une pour chaque input) et enfin une méthode pour valider et envoyer les informations saisies.
+
+ Les informations requises pour une requête de type **PUT** sont les mêmes que pour une requête de type **POST**. Pensez cependant à passer l'identifiant de l'image à modifier.
+ 
 ## Créer une requête de type DELETE pour supprimer une image
 
- - Créer le fichier **deleteImage.js**
- - Ajouter la route dans app.js (/!\ ne pas donner le code)
- - Implémenter la requête dans React (Ajouter le bouton dans la première modale)
+A vous de jouer!
 
- ## Un framework à tester :
+ - Créer le fichier **deleteImage.js**
+
+**tips* : Utiliser la méthode **deleteOne()**
+
+ - Ajouter la route dans **app.js** 
+ 
+ - Implémenter un bouton de suppression et sa méthode associée
+
+ **tips* : Comme pour la requête de type **PUT** vous aurez également besoin d'utiliser une fonction fléchée.
+
+ - Implémenter la requête dans React
+
+ ## Un outil à tester :
+
+ Durant ces deux jours, vous venez d'utiliser un ensemble de logiciels/frameworks appelé MERN : MongoDB, Express, React, Node.
+
+ Il existe un outil proposant une installation et un paramétrage clé en main pour développer des application React en utilisant une architecture de type MERN. 
 
  mern-starter : https://github.com/Hashnode/mern-starter
  
