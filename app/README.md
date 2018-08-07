@@ -1,5 +1,32 @@
 # Etapes  exercice #2 : Créer les requêtes d'affichage, d'insertion, de modification et de suppression des images
 
+## Paramétrer le serveur node
+
+ - Aller dans le fichier **package.json** à la racine du dossier
+
+ Dans le **package.json** entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent (port 3001) de l'application React :
+
+     {
+       "name": "app",
+       "version": "0.0.0",
+       "private": true,
+       "scripts": {
+         "start": "PORT=3001 node ./bin/www" // <= ligne à ajouter
+       },
+
+Dans fichier **client/package.json**, ajouter la ligne suivante pour que le server front-end communique avec le back-end :
+
+     {
+       "scripts": {
+         "start": "react-scripts start",
+         "build": "react-scripts build",
+         "test": "react-scripts test --env=jsdom",
+         "eject": "react-scripts eject"
+       },
+       "proxy": "http://localhost:3001" // <= ligne à ajouter
+     }
+
+
 ## Connexion à la base de données
 
 Dans **app.js** ajouter les lignes suivantes pour établir la connexion à la base :
