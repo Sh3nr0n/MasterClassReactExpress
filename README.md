@@ -90,6 +90,8 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
            return res.json(images);
          });
        });
+       module.exports = router;
+
 
 ### router.get( ... )
 
