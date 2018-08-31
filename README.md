@@ -86,8 +86,8 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
          Image.find({}, function(err, images) {
              
            if (err) { return next(err) }
-           console.log(images);
-           return res.json('image list : ',images);
+           console.log('image list : ', images);
+           return res.json(images);
          });
        });
 
