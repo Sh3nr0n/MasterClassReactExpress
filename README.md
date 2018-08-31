@@ -76,6 +76,10 @@ Pour utiliser ce schéma, il faut convertir notre  "**ImageSchema**" en un **mod
 ## Créer une requête de type GET pour afficher des images
 
  - Dans le dossier **routes**, créer un fichier **getImages.js**
+ 
+       var express = require('express');
+       var router = express.Router(); // The router.METHOD() methods provide the routing functionality in Express, where METHOD is one  of the HTTP methods, such as GET, PUT, POST, and so on, in lowercase. Thus, the actual methods are router.get(), router.post(), router.put(), and so on.
+       var Image = require('../schema/schemaImage')
 
        router.get('/', async function(req, res, next) { 
          console.log('getImage.js : Got a Get request')
