@@ -1,5 +1,7 @@
 # Etapes  exercice #2 : Créer les requêtes d'affichage, d'insertion, de modification et de suppression des images dans une base de données
 
+## Au préalable copier le dossier dans lequel la partie front-end a été réalisée et le renommer "client"
+
 ## Paramétrer les serveurs node (back-end et front-end)
 
  - Ouvrir le fichier **package.json** à la racine du projet et entrer la ligne de code suivante pour que le serveur back-end se lance sur un port différent de l'application React :
